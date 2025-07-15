@@ -1,5 +1,5 @@
-import { McpAgent } from "agents/mcp";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { McpAgent } from "agents/mcp";
 import { z } from "zod";
 
 // Define our MCP agent with tools
@@ -16,7 +16,7 @@ export class MyMCP extends McpAgent {
 			{ a: z.number(), b: z.number() },
 			async ({ a, b }) => ({
 				content: [{ type: "text", text: String(a + b) }],
-			})
+			}),
 		);
 
 		// Calculator tool with multiple operations
@@ -51,9 +51,18 @@ export class MyMCP extends McpAgent {
 							};
 						result = a / b;
 						break;
+					default:
+						return {
+							content: [
+								{
+									type: "text",
+									text: "Error: Invalid operation",
+								},
+							],
+						};
 				}
 				return { content: [{ type: "text", text: String(result) }] };
-			}
+			},
 		);
 	}
 }
