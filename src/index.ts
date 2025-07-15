@@ -10,7 +10,12 @@ export class MyMCP extends McpAgent {
 	});
 
 	async init() {
-		// Simple addition tool
+		this.server.tool("get-user", {}, async () => {
+			return {
+				content: [{ type: "text", text: "Nico Baier" }],
+			};
+		});
+
 		this.server.tool(
 			"add",
 			{ a: z.number(), b: z.number() },
